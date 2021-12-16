@@ -1,5 +1,7 @@
 const task = {
 
+  categoriesList: ["Toutes", "Adminstratif", "Médical", "Professionnel", "Loisirs", "Autre"],
+
   // ---------------------------------------------------------
   // Binders
   // ---------------------------------------------------------
@@ -14,6 +16,14 @@ const task = {
     const taskInputElement = taskElement.querySelector("input");
     taskInputElement.addEventListener("keydown", task.handleValidateNewTaskTitleOnKeyDown);
     taskInputElement.addEventListener("blur", task.handleValidateNewTaskTitleOnBlur);
+
+    // listening the click on the cateogry for edition mode
+    const taskCategoryElement = taskElement.querySelector(".task__category-label");
+    taskCategoryElement.addEventListener("click", task.handleEnableTaskCategoryChosingMode);
+
+    // listening the choice of a category option
+    const categoryOptionElement = taskElement.querySelector("select");
+    categoryOptionElement.addEventListener("change", task.handleValidateNewCategory);
     
     // listening the complete button
     const taskCompleteBtn = taskElement.querySelector(".task__button--validate");
@@ -30,6 +40,8 @@ const task = {
     // listening the desarchive button
     const taskDesarchiveBtn = taskElement.querySelector(".task__button--desarchive");
     taskDesarchiveBtn.addEventListener("click", task.handleDesarchiveTask);
+
+
   },
 
   // ---------------------------------------------------------
@@ -38,10 +50,21 @@ const task = {
 
   // editing a task
   handleEnableTaskTitleEditMode: function(event) {
-
     const taskTitleElement = event.currentTarget;
     const taskElement = taskTitleElement.closest(".task");
     taskElement.classList.add("task--edit");
+  },
+
+  // editing a category
+  handleEnableTaskCategoryChosingMode: function(event) {
+    const taskCategoryElement = event.currentTarget;
+    const taskElement = taskCategoryElement.closest(".task");
+
+    const categoryLabel = taskElement.querySelector(".task__category-label");
+    categoryLabel.style.display ="none";
+
+    const taskSelectElement = taskElement.querySelector(".task__category-list");
+    taskSelectElement.style.display = "block";
   },
 
   // validating a title when enter key is pushed
@@ -50,7 +73,6 @@ const task = {
     if (event.key === "Enter") {
       task.handleDisableTaskTitleEditMode(event);
     }
-
   },
 
   // archiving a task
@@ -163,6 +185,48 @@ const task = {
       }
     });
   },
+  
+  // // save a new chosen category
+  handleValidateNewCategory: function(event) {
+
+    const newCategory = event.currentTarget;
+    const ChosenCategoryIndex = newCategory.selectedIndex + 1;
+    const chosenCategory = task.categoriesList[ChosenCategoryIndex];
+
+    // catching the id of the task
+    const taskElement = newCategory.closest(".task");
+    const taskId = taskElement.dataset.id ;
+
+    console.log(ChosenCategoryIndex);
+    // creating the updating object
+    const taskData = {
+      category: ChosenCategoryIndex
+    };
+
+    // sending datas with AJAX request
+    let myInit = {
+      method: 'PATCH',
+      headers: {
+          'Accept': 'application/json', // client can accept json
+          'Content-Type': 'application/json', // client can send json
+      },
+      body: JSON.stringify(taskData),
+  };
+
+    fetch(app.apiRootUrl + "/tasks/edit/" + taskId, myInit)
+    .then(function (response) {
+      if (response.status == 204) {
+        const taskSelectElement = taskElement.querySelector(".task__category-list");
+        taskSelectElement.style.display = "none";
+        const categoryLabel = taskElement.querySelector(".task__category-label");
+        categoryLabel.style.display ="block";
+        categoryLabel.textContent = chosenCategory;
+
+      } else {
+        alert("Erreur lors de l'enregistrement");
+      }
+    });
+  },
 
   // save a task as completed
   handleCompleteTask: function(event) {
@@ -238,10 +302,12 @@ const task = {
     const taskInputElement = templateClonedElement.querySelector("input");
     taskInputElement.value = taskTitleValue;
     taskInputElement.defaultValue = taskTitleValue;
+    const taskSelectElement = templateClonedElement.querySelector(".task__category-list");
+    taskSelectElement.style.display = "none";
 
     // updating the task's category
     templateClonedElement.dataset.category = taskCategoryValue;
-    const taskCategoryElement = templateClonedElement.querySelector(".task__category");
+    const taskCategoryElement = templateClonedElement.querySelector(".task__category-label");
     taskCategoryElement.textContent = taskCategoryValue;
 
     // updating the id

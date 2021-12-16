@@ -19,7 +19,9 @@ const filters = {
                 if (filters.showarchivedTasks === false) {
 
                     for (const task of tasksToDoElement) {
-                        task.style.display = "none";
+                        if (task.id != "task-template") {
+                            task.style.display = "none";
+                        }
                     }
 
                     for (const task of tasksArchivedElement) {
@@ -33,7 +35,9 @@ const filters = {
                     }
 
                     for (const task of tasksToDoElement) {
-                        task.style.display = "block";
+                        if (task.id != "task-template") {
+                            task.style.display = "block";
+                        }
                     }  
                 }
 

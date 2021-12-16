@@ -59,13 +59,13 @@ const newTaskForm = {
 
         return response.json();
       }
-    ).then(function (newTaskObject) {
+    ).then(function (newTaskObjectId) {
 
       // we'll create a new element which we'll insert on the taskList
-      const newTaskElement = task.createTaskElement(taskTitle, taskCategoryName, newTaskObject.id, newTaskObject.completion);
+      const newTaskElement = task.createTaskElement(taskTitle, taskCategoryName, newTaskObjectId, 0);
       
       // For the insertion, we call a new method
-      tasksList.insertTaskIntoTasksList(newTaskElement);
+      tasksList.insertTaskIntoTasksList(newTaskElement, true);
     })
     .catch(function (errorMessage) {
       alert(errorMessage);

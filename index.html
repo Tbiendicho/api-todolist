@@ -34,10 +34,12 @@
         </div>
         <div class="filters__task filters__task--category select is-small">
           <select class="filters__choice">
-            <option>Toutes les catégories</option>
-            <option>Courses</option>
-            <option>O'Clock</option>
-            <option>Projet Professionnel</option>
+            <option value="toutes">Toutes les catégories</option>
+            <option value="administratif">Administratif</option>
+            <option value="médical">Médical</option>
+            <option value="professionnel">Professionnel</option>
+            <option value="loisirs">Loisirs</option>
+            <option value="autre">Autre</option>
           </select>
         </div>
         <div class="filters__task filters__task--archived">
@@ -58,12 +60,7 @@
               </div>
             </div>
             <div class="task__buttons">
-              <button class="task__button task__button--add button is-info">
-                <span class="icon is-small">
-                  <i class="fa fa-plus"></i>
-                </span>
-                <span>Ajouter</span>
-              </button>
+              <button class="task__button task__button--add btn btn-success">Ajouter</button>
             </div>
           </div>
         </form>
@@ -72,18 +69,24 @@
         <div id="task-template" class="task task--todo" data-category="Courses">
           <div class="task__content">
             <div class="task__title">
-              <p class="task__title-label">Acheter du pain</p>
-              <input class="task__title-field input" type="text" value="Acheter du pain" placeholder="Titre de la tâche"
+              <p class="task__title-label">Template</p>
+              <input class="task__title-field input" type="text" value="Template" placeholder="Template"
                 name="title" />
             </div>
             <div class="task__category">
-              <p>Courses</p>
+              <p class="task__category-label">Courses</p>
+              <select class="task__category-list" name="categoriesList" id="categoriesList">
+                <option value="Administratif">Administratif</option>
+                <option value="Médical">Médical</option>
+                <option value="Professionnel">Professionnel</option>
+                <option value="Loisirs">Loisirs</option>
+                <option value="Autre">Autre</option>
+              </select>
             </div>
             <div class="task__buttons">
               <button class="task__button task__button--incomplete btn btn-success">Incomplet</button>
               <button class="task__button task__button--desarchive btn btn-success">Désarchiver</button>
               <button class="task__button task__button--validate btn btn-success">Valider</button>
-              <button class="task__button task__button--modify btn btn-warning">Modifier</button>
               <button class="task__button task__button--archive btn btn-danger">Archiver</button>
               <button class="task__button task__button--delete btn btn-danger">Supprimer</button>
             </div>

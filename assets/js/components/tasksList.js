@@ -23,10 +23,14 @@ const tasksList = {
   // ---------------------------------------------------------
 
   // adding a new task on the taskList
-  insertTaskIntoTasksList: function(newTaskElement) {
+  insertTaskIntoTasksList: function(newTaskElement, boolean) {
     const tasksListElement = document.querySelector(".tasks");
     // adding the task at the top of the list
     tasksListElement.prepend(newTaskElement);
+
+    if (boolean == true) {
+      location.reload();
+    }
   },
 
   // ---------------------------------------------------------
@@ -55,7 +59,7 @@ const tasksList = {
         for (const singleTask of jsonData) {
           // creating all tasks one by one with the method task.createTaskElement()
           const taskElement = task.createTaskElement(singleTask.title, singleTask.category.name, singleTask.id, singleTask.completion);
-          tasksList.insertTaskIntoTasksList(taskElement);
+          tasksList.insertTaskIntoTasksList(taskElement, false);
 
           if (singleTask.status === 2) {
             let taskElementById = document.querySelector("[data-id='" +  singleTask.id + "']");
@@ -64,6 +68,8 @@ const tasksList = {
             taskElementById.style.display = "none";
           }
         }
+        const templateElement = document.querySelector("#task-template");
+        templateElement.style.display="none";
       }
     );
   },
