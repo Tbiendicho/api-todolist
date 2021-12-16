@@ -26,6 +26,10 @@ const task = {
     // listening the archive button
     const taskArchiveBtn = taskElement.querySelector(".task__button--archive");
     taskArchiveBtn.addEventListener("click", task.handleArchiveTask);
+
+    // listening the desarchive button
+    const taskDesarchiveBtn = taskElement.querySelector(".task__button--desarchive");
+    taskDesarchiveBtn.addEventListener("click", task.handleDesarchiveTask);
   },
 
   // ---------------------------------------------------------
@@ -70,12 +74,46 @@ const task = {
       body: JSON.stringify(taskData),
   };
 
-    fetch(app.apiRootUrl + "/tasks/patch" + taskInputElementId, myInit)
+    fetch(app.apiRootUrl + "/tasks/edit/" + taskInputElementId, myInit)
     .then(function (response) {
       if (response.status == 204) {
         taskElement.classList.remove('task--todo');
         taskElement.classList.add('task--archive');
         alert("Tâche archivée");
+        taskElement.style.display = "none";
+      } else {
+        alert("Erreur lors de l'enregistrement");
+      }
+    });
+  },
+
+  // desarchiving a task
+  handleDesarchiveTask: function(evt) {
+    const taskInputElement = evt.currentTarget;
+    const taskElement = taskInputElement.closest('.task');
+    taskInputElementId = taskElement.dataset.id
+
+    // creating the updating object
+    const taskData = {
+      status: 1
+    };
+
+    // sending datas with AJAX request
+    let myInit = {
+      method: 'PATCH',
+      headers: {
+          'Accept': 'application/json', // client can accept json
+          'Content-Type': 'application/json', // client can send json
+      },
+      body: JSON.stringify(taskData),
+  };
+
+    fetch(app.apiRootUrl + "/tasks/edit/" + taskInputElementId, myInit)
+    .then(function (response) {
+      if (response.status == 204) {
+        taskElement.classList.remove('task--archive');
+        taskElement.classList.add('task--todo');
+        alert("Tâche desarchivée");
         taskElement.style.display = "none";
       } else {
         alert("Erreur lors de l'enregistrement");
@@ -93,7 +131,9 @@ const task = {
     const taskInputElement = event.currentTarget;
     const taskInputValue = taskInputElement.value;
     const taskElement = taskInputElement.closest(".task");
+    
     const taskTitleElement = taskElement.querySelector(".task__title-label");
+    
 
     // catching the id of the task
     const taskId = taskElement.dataset.id ;
@@ -113,7 +153,7 @@ const task = {
       body: JSON.stringify(taskData),
   };
 
-    fetch(app.apiRootUrl + "/tasks/" + taskId, myInit)
+    fetch(app.apiRootUrl + "/tasks/edit/" + taskId, myInit)
     .then(function (response) {
       if (response.status == 204) {
         taskTitleElement.textContent = taskInputValue;
@@ -156,7 +196,7 @@ const task = {
       body: JSON.stringify(taskData),
   };
 
-    fetch(app.apiRootUrl + '/tasks/patch' + taskId, myInit)
+    fetch(app.apiRootUrl + '/tasks/edit/' + taskId, myInit)
     .then(
         function(response) {
             if (response.status == 204) {
@@ -174,13 +214,13 @@ const task = {
   // ---------------------------------------------------------
 
   // updating a task as completed
-  updateTaskCompletion: function (taskElement, completion) {
+  updateTaskCompletion: function (templateClonedElement, completion) {
     if (completion == 100) {
-      taskElement.classList.remove("task--todo");
-      taskElement.classList.add("task--complete");
+      templateClonedElement.classList.remove("task--todo");
+      templateClonedElement.classList.add("task--complete");
     } else {
-      taskElement.classList.add("task--todo");
-      taskElement.classList.remove("task--complete");
+      templateClonedElement.classList.add("task--todo");
+      templateClonedElement.classList.remove("task--complete");
     }
   },
 
@@ -189,31 +229,31 @@ const task = {
 
     // cloning an old task
     const templateElement = document.querySelector("#task-template");
-    const templateClonedElement = templateElement.content.cloneNode(true);
-    const taskElement = templateClonedElement.querySelector(".task");
+    const templateClonedElement = templateElement.cloneNode(true);
 
     // updating the cloned task
-    const taskTitleElement = taskElement.querySelector(".task__title-label");
+    templateClonedElement.id = "task";
+    const taskTitleElement = templateClonedElement.querySelector(".task__title-label");
     taskTitleElement.textContent = taskTitleValue;
-    const taskInputElement = taskElement.querySelector("input");
+    const taskInputElement = templateClonedElement.querySelector("input");
     taskInputElement.value = taskTitleValue;
     taskInputElement.defaultValue = taskTitleValue;
 
     // updating the task's category
-    taskElement.dataset.category = taskCategoryValue;
-    const taskCategoryElement = taskElement.querySelector(".task__category option");
+    templateClonedElement.dataset.category = taskCategoryValue;
+    const taskCategoryElement = templateClonedElement.querySelector(".task__category");
     taskCategoryElement.textContent = taskCategoryValue;
 
     // updating the id
-    taskElement.dataset.id = taskID;
+    templateClonedElement.dataset.id = taskID;
 
     // updating the completion
-    task.updateTaskCompletion(taskElement, taskCompletion);
+    task.updateTaskCompletion(templateClonedElement, taskCompletion);
 
     // adding event listeners
-    task.bindSingleTaskEvents(taskElement);
+    task.bindSingleTaskEvents(templateClonedElement);
 
-    return taskElement;
+    return templateClonedElement;
 
   }
 

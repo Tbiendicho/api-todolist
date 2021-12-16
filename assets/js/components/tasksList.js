@@ -1,7 +1,6 @@
 const tasksList = {
 
   init: function() {
-    console.log("tasksList.init() appelé");
     tasksList.loadTasksFromAPI();
   },
 
