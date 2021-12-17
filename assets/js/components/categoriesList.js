@@ -34,7 +34,7 @@ const categoriesList = {
         selectElement.classList.add("filters__choice");
 
         let firstOptionElement = document.createElement("option");
-        firstOptionElement.textContent = "Toutes";
+        firstOptionElement.textContent = "Catégories";
         selectElement.append(firstOptionElement);
 
         for (const category of jsonData) {
