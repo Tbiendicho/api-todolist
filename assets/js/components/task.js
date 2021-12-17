@@ -38,8 +38,12 @@ const task = {
     taskArchiveBtn.addEventListener("click", task.handleArchiveTask);
 
     // listening the desarchive button
-    const taskDesarchiveBtn = taskElement.querySelector(".task__button--delete");
-    taskDesarchiveBtn.addEventListener("click", task.handleDeleteTask);
+    const taskDesarchiveBtn = taskElement.querySelector(".task__button--desarchive");
+    taskDesarchiveBtn.addEventListener("click", task.handleDesarchiveTask);
+
+    // listening the delete button
+    const taskDeleteBtn = taskElement.querySelector(".task__button--delete");
+    taskDeleteBtn.addEventListener("click", task.handleDeleteTask);
 
   },
 
@@ -112,7 +116,8 @@ const task = {
   handleDesarchiveTask: function(evt) {
     const taskInputElement = evt.currentTarget;
     const taskElement = taskInputElement.closest('.task');
-    taskInputElementId = taskElement.dataset.id
+    taskInputElementId = taskElement.dataset.id;
+    console.log("OK");
 
     // creating the updating object
     const taskData = {
