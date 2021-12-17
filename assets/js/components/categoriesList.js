@@ -1,5 +1,7 @@
 const categoriesList = {
   
+  categoriesList: ["Toutes", "Administratif", "Médical", "Professionnel", "Loisirs", "Autre"],
+
   init: function() {
     categoriesList.loadCategoriesFromAPI();
   },
@@ -30,42 +32,56 @@ const categoriesList = {
     .then(
       function(jsonData) { // we definitly catch the json datas
 
-        let selectElement = document.createElement("select");
-        selectElement.classList.add("filters__choice");
-
+        // we'll create a select menu for categories filter
+        let filterSelectElement = document.querySelector(".filters__task__select");
         let firstOptionElement = document.createElement("option");
         firstOptionElement.textContent = "Catégories";
-        selectElement.append(firstOptionElement);
+        firstOptionElement.classList.add("filters__option");
+        filterSelectElement.append(firstOptionElement);
 
         for (const category of jsonData) {
           const optionElement = document.createElement("option");
           optionElement.textContent = category.name;
-
+          optionElement.classList.add("filters__option");
           optionElement.value = category.id ;
-
-          selectElement.append(optionElement);
+          optionElement.name = category.name;
+          filterSelectElement.append(optionElement);
         }
 
-        let parentElement = document.querySelector(".filters .filters__task--category");
-        parentElement.append(selectElement);
+        // we'll do the same for the add task option
+        let taskSelectElement = document.createElement("select");
+        taskSelectElement.classList.add("task__category__list");
+        let categoryTaskElement = document.querySelector(".task .task__category .select");
+        categoryTaskElement.append(taskSelectElement);
 
-        selectElement = document.createElement("select");
-        firstOptionElement = document.createElement("option");
-        firstOptionElement.textContent = "Choisir une catégorie";
-        selectElement.append(firstOptionElement);
+        let firstCategoryTask = document.createElement("option");
+        firstCategoryTask.textContent = "Choisir une catégorie";
+        firstCategoryTask.classList.add("task__category__option--first");
+        taskSelectElement.append(firstCategoryTask);
 
         for (const category of jsonData) {
-          const optionElement = document.createElement("option");
-          optionElement.textContent = category.name;
-
-          optionElement.value = category.id ;
-
-          selectElement.append(optionElement);
+          const CategoryTaskElement = document.createElement("option");
+          CategoryTaskElement.textContent = category.name;
+          CategoryTaskElement.classList.add("task__category__option");
+          CategoryTaskElement.value = category.id ;
+          CategoryTaskElement.name = category.name;
+          taskSelectElement.append(CategoryTaskElement);
         }
-        
-        parentElement = document.querySelector(".task--add .select");
-        parentElement.append(selectElement);
 
+        // we'll do the same for the categories of the template task
+        let templateSelectElement = document.createElement("select");
+        templateSelectElement.classList.add("task__category__choice");
+        let categoryTemplateElement = document.querySelector(".tasks .task__category .select");
+        categoryTemplateElement.append(templateSelectElement);
+
+        for (const category of jsonData) {
+          const categoryOptionTemplateElement = document.createElement("option");
+          categoryOptionTemplateElement.textContent = category.name;
+          categoryOptionTemplateElement.classList.add("task__category__option");
+          categoryOptionTemplateElement.value = category.id ;
+          categoryOptionTemplateElement.name = category.name;
+          templateSelectElement.append(categoryOptionTemplateElement);
+        }
       }
     );
 

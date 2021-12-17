@@ -3,10 +3,12 @@ const app = {
   apiRootUrl: "http://localhost:8080",
 
   init: function() {
+    
+    categoriesList.init();
     tasksList.init();
     newTaskForm.init();
-    categoriesList.init();
     filters.init();
+
   }
 
 };

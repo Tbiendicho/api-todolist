@@ -22,17 +22,16 @@
   <div class="container">
     <header class="header">
       <div class="logo">
-        <a href=".">
-          <h1 class="logo__title title is-3">TodoList</h1>
-        </a>
+          <h1 class="logo__title">TodoList</h1>
       </div>
       <div class="filters">
-        <div class="filters__task filters__task--completion buttons are-small has-addons">
-          <button class="filters__choice all button is-info">Toutes</button>
-          <button class="filters__choice complete button is-selected">Complètes</button>
-          <button class="filters__choice incomplete button">Incomplètes</button>
+        <div class="filters__task filters__task--completion">
+          <button class="filters__choice all btn btn-light">Toutes</button>
+          <button class="filters__choice complete btn btn-light">Complètes</button>
+          <button class="filters__choice incomplete btn btn-light">Incomplètes</button>
         </div>
-        <div class="filters__task filters__task--category select is-small">
+        <div class="filters__task filters__task--category">
+            <select class="filters__task__select"></select>
         </div>
         <div class="filters__task filters__task--archived">
           <a class="filters__choice" href="#">Voir les archives</a>
@@ -48,7 +47,7 @@
               <input class="task__title-field input" type="text" placeholder="Titre de la tâche" name="title" />
             </div>
             <div class="task__category">
-              <div class="select is-small">
+              <div class="select">
               </div>
             </div>
             <div class="task__buttons">
@@ -58,7 +57,7 @@
         </form>
       </div>
       <div class="tasks">
-        <div id="task-template" class="task task--todo" data-category="Courses">
+        <div id="task-template" class="task task--todo" data-category="Catégorie">
           <div class="task__content">
             <div class="task__title">
               <p class="task__title-label">Template</p>
@@ -66,14 +65,9 @@
                 name="title" />
             </div>
             <div class="task__category">
-              <p class="task__category-label">Courses</p>
-              <select class="task__category-list" name="categoriesList" id="categoriesList">
-                <option value="Administratif">Administratif</option>
-                <option value="Médical">Médical</option>
-                <option value="Professionnel">Professionnel</option>
-                <option value="Loisirs">Loisirs</option>
-                <option value="Autre">Autre</option>
-              </select>
+              <p class="task__category-label">Catégorie</p>
+              <div class="select">
+              </div>
             </div>
             <div class="task__buttons">
               <button class="task__button task__button--incomplete btn btn-success">Incomplet</button>
@@ -86,14 +80,7 @@
           <div class="progress-bar">
             <div class="progress-bar__level" style="width:0%"></div>
           </div>
-        </div>
-        
-
-
-
-
-        
-        
+        </div>  
       </div>
     </main>
   </div>
