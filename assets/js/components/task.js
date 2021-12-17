@@ -38,9 +38,8 @@ const task = {
     taskArchiveBtn.addEventListener("click", task.handleArchiveTask);
 
     // listening the desarchive button
-    const taskDesarchiveBtn = taskElement.querySelector(".task__button--desarchive");
-    taskDesarchiveBtn.addEventListener("click", task.handleDesarchiveTask);
-
+    const taskDesarchiveBtn = taskElement.querySelector(".task__button--delete");
+    taskDesarchiveBtn.addEventListener("click", task.handleDeleteTask);
 
   },
 
@@ -186,7 +185,7 @@ const task = {
     });
   },
   
-  // // save a new chosen category
+  // save a new chosen category
   handleValidateNewCategory: function(event) {
 
     const newCategory = event.currentTarget;
@@ -197,7 +196,6 @@ const task = {
     const taskElement = newCategory.closest(".task");
     const taskId = taskElement.dataset.id ;
 
-    console.log(ChosenCategoryIndex);
     // creating the updating object
     const taskData = {
       category: ChosenCategoryIndex
@@ -222,6 +220,36 @@ const task = {
         categoryLabel.style.display ="block";
         categoryLabel.textContent = chosenCategory;
 
+      } else {
+        alert("Erreur lors de l'enregistrement");
+      }
+    });
+  },
+
+  // delete a task
+  handleDeleteTask: function(event) {
+
+    // catching the id of the task
+    const DeleteElement = event.currentTarget;
+    const TaskTodelete = DeleteElement.closest(".task");
+    const taskId = TaskTodelete.dataset.id ;
+
+    console.log(taskId);
+
+    // sending datas with AJAX request
+    let myInit = {
+      method: 'DELETE',
+      headers: {
+          'Accept': 'application/json', // client can accept json
+          'Content-Type': 'application/json', // client can send json
+      },
+    };
+
+    fetch(app.apiRootUrl + "/tasks/delete/" + taskId, myInit)
+    .then(function (response) {
+      if (response.status == 204) {
+        location.reload();
+        alert("La tâche a bien été supprimée")
       } else {
         alert("Erreur lors de l'enregistrement");
       }
