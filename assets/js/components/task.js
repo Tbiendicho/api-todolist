@@ -66,7 +66,7 @@ const task = {
     const categoryLabel = taskElement.querySelector(".task__category-label");
     categoryLabel.style.display ="none";
 
-    const taskSelectElement = taskElement.querySelector(".task__category-list");
+    const taskSelectElement = taskElement.querySelector(".task__category__choice");
     taskSelectElement.style.display = "block";
   },
 
@@ -219,7 +219,7 @@ const task = {
     fetch(app.apiRootUrl + "/tasks/edit/" + taskId, myInit)
     .then(function (response) {
       if (response.status == 204) {
-        const taskSelectElement = taskElement.querySelector(".task__category-list");
+        const taskSelectElement = taskElement.querySelector(".task__category__choice");
         taskSelectElement.style.display = "none";
         const categoryLabel = taskElement.querySelector(".task__category-label");
         categoryLabel.style.display ="block";
@@ -335,7 +335,7 @@ const task = {
     const taskInputElement = templateClonedElement.querySelector("input");
     taskInputElement.value = taskTitleValue;
     taskInputElement.defaultValue = taskTitleValue;
-    const taskSelectElement = templateClonedElement.querySelector(".task__category-list");
+    const taskSelectElement = templateClonedElement.querySelector(".task__category__choice");
     taskSelectElement.style.display = "none";
 
     // updating the task's category

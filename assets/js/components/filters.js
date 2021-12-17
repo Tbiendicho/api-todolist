@@ -9,9 +9,14 @@ const filters = {
         const filterElement = document.querySelector('.filters__task.filters__task--archived');
         filterElement.addEventListener('click', filters.handleFilterTasks);
 
-        const filterChoiceElement = document.querySelectorAll('.filters__choice.button');
+        const filterChoiceElement = document.querySelectorAll('.filters .filters__choice');
         for (currentFilterChoice of filterChoiceElement) {
             currentFilterChoice.addEventListener('click', filters.handleFilterChoice);
+        }
+
+        const filterCategoryElement = document.querySelectorAll('.filters__choice');
+        for (currentOption of filterCategoryElement) {
+            currentOption.addEventListener('click', filters.handleFilterCategory);
         }
 
     },
@@ -51,11 +56,12 @@ const filters = {
         },
 
     handleFilterChoice: function(evt) {
-
+        console.log("OK");
         const selectedButton = evt.currentTarget;
         selectedButton.classList.add("selected");
 
         if (selectedButton.textContent == "Incomplètes") {
+            console.log("OK");
             tasksToDo = document.querySelectorAll('.task--todo');
             for (currentTaskToDo of tasksToDo) {
                 currentTaskToDo.style.display="none";
@@ -83,7 +89,10 @@ const filters = {
                 }
             }
         }
+    },
 
+    handleFilterCategory: function(evt) {
+        
     }
         
     }
