@@ -1,5 +1,7 @@
 const categoriesList = {
   
+  categoriesList: ["Toutes", "Administratif", "Médical", "Professionnel", "Loisirs", "Autre"],
+
   init: function() {
     categoriesList.loadCategoriesFromAPI();
   },
@@ -31,11 +33,7 @@ const categoriesList = {
       function(jsonData) { // we definitly catch the json datas
 
         // we'll create a select menu for categories filter
-        let filterSelectElement = document.createElement("select");
-        filterSelectElement.classList.add("filters__choice");
-        let categoryFilterElement = document.querySelector(".filters__task--category");
-        categoryFilterElement.append(filterSelectElement);
-
+        let filterSelectElement = document.querySelector(".filters__task__select");
         let firstOptionElement = document.createElement("option");
         firstOptionElement.textContent = "Catégories";
         firstOptionElement.classList.add("filters__option");
@@ -53,7 +51,7 @@ const categoriesList = {
         // we'll do the same for the add task option
         let taskSelectElement = document.createElement("select");
         taskSelectElement.classList.add("task__category__list");
-        let categoryTaskElement = document.querySelector(".task .task__category");
+        let categoryTaskElement = document.querySelector(".task .task__category .select");
         categoryTaskElement.append(taskSelectElement);
 
         let firstCategoryTask = document.createElement("option");
@@ -73,7 +71,7 @@ const categoriesList = {
         // we'll do the same for the categories of the template task
         let templateSelectElement = document.createElement("select");
         templateSelectElement.classList.add("task__category__choice");
-        let categoryTemplateElement = document.querySelector(".tasks .task__category");
+        let categoryTemplateElement = document.querySelector(".tasks .task__category .select");
         categoryTemplateElement.append(templateSelectElement);
 
         for (const category of jsonData) {

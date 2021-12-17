@@ -2,7 +2,7 @@ const filters = {
 
     showarchivedTasks: false,
 
-    init: function() {
+    init: function () {
 
         // Binders
 
@@ -14,85 +14,106 @@ const filters = {
             currentFilterChoice.addEventListener('click', filters.handleFilterChoice);
         }
 
-        const filterCategoryElement = document.querySelectorAll('.filters__choice');
-        for (currentOption of filterCategoryElement) {
-            currentOption.addEventListener('click', filters.handleFilterCategory);
-        }
+        filterCategoryElement = document.querySelector('.filters__task__select');
+        filterCategoryElement.addEventListener('change', filters.handleFilterCategory);
 
     },
-    
-    handleFilterTasks: function() {
+
+    handleFilterTasks: function () {
 
         const tasksToDoElement = document.querySelectorAll('.task--todo, .task--complete');
         const tasksArchivedElement = document.querySelectorAll('.task--archive');
-            
-                if (filters.showarchivedTasks === false) {
 
-                    for (const task of tasksToDoElement) {
-                        if (task.id != "task-template") {
-                            task.style.display = "none";
-                        }
-                    }
+        if (filters.showarchivedTasks === false) {
 
-                    for (const task of tasksArchivedElement) {
-                        task.style.display = "block";
-                    }
-                    
-                } else {
-
-                    for (const task of tasksArchivedElement) {
-                        task.style.display = "none"; 
-                    }
-
-                    for (const task of tasksToDoElement) {
-                        if (task.id != "task-template") {
-                            task.style.display = "block";
-                        }
-                    }  
+            for (const task of tasksToDoElement) {
+                if (task.id != "task-template") {
+                    task.style.display = "none";
                 }
+            }
 
-            filters.showarchivedTasks = !filters.showarchivedTasks;
+            for (const task of tasksArchivedElement) {
+                task.style.display = "block";
+            }
 
-        },
+        } else {
 
-    handleFilterChoice: function(evt) {
-        console.log("OK");
+            for (const task of tasksArchivedElement) {
+                task.style.display = "none";
+            }
+
+            for (const task of tasksToDoElement) {
+                if (task.id != "task-template") {
+                    task.style.display = "block";
+                }
+            }
+        }
+
+        filters.showarchivedTasks = !filters.showarchivedTasks;
+
+    },
+
+    handleFilterChoice: function (evt) {
+        
+        const tasksArchivedElement = document.querySelectorAll('.task--archive');
+        for (const task of tasksArchivedElement) {
+            task.style.display = "none";
+        }
+
         const selectedButton = evt.currentTarget;
         selectedButton.classList.add("selected");
 
         if (selectedButton.textContent == "Incomplètes") {
-            console.log("OK");
             tasksToDo = document.querySelectorAll('.task--todo');
             for (currentTaskToDo of tasksToDo) {
-                currentTaskToDo.style.display="none";
+                currentTaskToDo.style.display = "none";
             }
             tasksCompleted = document.querySelectorAll('.task--complete');
             for (currentTaskCompleted of tasksCompleted) {
-                currentTaskCompleted.style.display="block";
+                currentTaskCompleted.style.display = "block";
             }
+            filters.showarchivedTasks = false;
         } else if (selectedButton.textContent == "Complètes") {
             tasksCompleted = document.querySelectorAll('.task--complete');
             for (currentTaskCompleted of tasksCompleted) {
-                currentTaskCompleted.style.display="none";
+                currentTaskCompleted.style.display = "none";
             }
             tasksToDo = document.querySelectorAll('.task--todo');
             for (currentTaskToDo of tasksToDo) {
                 if (currentTaskToDo.id != "task-template") {
-                    currentTaskToDo.style.display="block";
+                    currentTaskToDo.style.display = "block";
                 }
             }
-        } else {
+            filters.showarchivedTasks = false;
+        } else if (selectedButton.textContent == "Toutes"){
             allTasks = document.querySelectorAll('.task');
             for (currentTask of allTasks) {
-                if (currentTask.id != "task-template") {
-                    currentTask.style.display="block";
+                if (currentTask.id != "task-template" && !currentTask.classList.contains('task--archive')) {
+                    currentTask.style.display = "block";
                 }
             }
+            filters.showarchivedTasks = false;
         }
+        
     },
 
-    handleFilterCategory: function(evt) {
-        
+    handleFilterCategory: function (evt) {
+
+        const categoryIndex = (evt.currentTarget.selectedIndex);
+        const chosenCategory = categoriesList.categoriesList[categoryIndex];
+        const allTasks = document.querySelectorAll('.task');
+        for (currentTask of allTasks) {
+            if (currentTask.id != "task-template") {
+            currentTask.style.display = "block";
+            }
+            if (chosenCategory != "Toutes") {
+                if (currentTask.dataset.category != chosenCategory) {
+                    currentTask.style.display = "none";
+                }
+            };
+            if (currentTask.classList.contains('task--archive')) {
+                currentTask.style.display = "none";
+            };
+        }
     }
-        
-    }
+}

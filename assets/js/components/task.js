@@ -1,7 +1,5 @@
 const task = {
 
-  categoriesList: ["Toutes", "Adminstratif", "Médical", "Professionnel", "Loisirs", "Autre"],
-
   // ---------------------------------------------------------
   // Binders
   // ---------------------------------------------------------
@@ -17,7 +15,7 @@ const task = {
     taskInputElement.addEventListener("keydown", task.handleValidateNewTaskTitleOnKeyDown);
     taskInputElement.addEventListener("blur", task.handleValidateNewTaskTitleOnBlur);
 
-    // listening the click on the cateogry for edition mode
+    // listening the click on the category for edition mode
     const taskCategoryElement = taskElement.querySelector(".task__category-label");
     taskCategoryElement.addEventListener("click", task.handleEnableTaskCategoryChosingMode);
 
@@ -117,7 +115,6 @@ const task = {
     const taskInputElement = evt.currentTarget;
     const taskElement = taskInputElement.closest('.task');
     taskInputElementId = taskElement.dataset.id;
-    console.log("OK");
 
     // creating the updating object
     const taskData = {
@@ -195,7 +192,7 @@ const task = {
 
     const newCategory = event.currentTarget;
     const ChosenCategoryIndex = newCategory.selectedIndex + 1;
-    const chosenCategory = task.categoriesList[ChosenCategoryIndex];
+    const chosenCategory = categoriesList.categoriesList[ChosenCategoryIndex];
 
     // catching the id of the task
     const taskElement = newCategory.closest(".task");
@@ -329,7 +326,7 @@ const task = {
     const templateClonedElement = templateElement.cloneNode(true);
 
     // updating the cloned task
-    templateClonedElement.id = "task";
+    templateClonedElement.id = taskID;
     const taskTitleElement = templateClonedElement.querySelector(".task__title-label");
     taskTitleElement.textContent = taskTitleValue;
     const taskInputElement = templateClonedElement.querySelector("input");

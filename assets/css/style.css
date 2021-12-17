@@ -1,5 +1,6 @@
 body {
-    background: linear-gradient(#e66465, #9198e5);
+    background-color: #FAACA8;
+    background-image: linear-gradient(19deg, #FAACA8 0%, #DDD6F3 100%);  
     text-align: center;
     background-repeat: no-repeat;
     height: 100vh;
@@ -14,12 +15,15 @@ body {
   }
   
   .header {
-    background-color: #ededed;
     padding: 1.2rem;
   }
   
   .logo__title {
     margin-bottom: 0.5rem;
+  }
+
+  .filters__task--completion {
+    margin: auto;
   }
   
   .filters__task--completion.buttons {
@@ -59,7 +63,7 @@ body {
   }
   
   .task__category {
-    color: #b1b1b1;
+
   }
   
   .task__buttons {
@@ -68,12 +72,12 @@ body {
   
   .progress-bar {
     height: 0.4rem;
-    background-color: #ededed;
+    background-color: red;
   }
   
   .progress-bar__level {
     height: 0.4rem;
-    background-color: #3298dc;
+
   }
   
   .task__button--desarchive,
@@ -104,16 +108,13 @@ body {
   }
   
   .task--archive .task__content {
-    background-color: #f7f7f7;
     border: none;
   }
   
   .task--archive .task__title {
-    color: #b1b1b1;
   }
   
   .task--archive .progress-bar__level {
-    background-color: #b1b1b1;
   }
   
   .task--archive .task__button--validate,
@@ -128,7 +129,6 @@ body {
   }
   
   .task--add .task__content {
-    border-color: #78b6df;
   }
   
   .task--add .task__title {
@@ -217,7 +217,6 @@ body {
   
     .filters__task--completion {
       margin-bottom: 0;
-      margin-top: 1rem;
     }
   
     .task,
