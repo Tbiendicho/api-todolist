@@ -19,6 +19,7 @@ const filters = {
 
     },
 
+    // this method will show archived or unarchived tasks
     handleFilterTasks: function () {
 
         const tasksToDoElement = document.querySelectorAll('.task--todo, .task--complete');
@@ -53,6 +54,7 @@ const filters = {
 
     },
 
+    // this method will show completed or active tasks
     handleFilterChoice: function (evt) {
         
         const tasksArchivedElement = document.querySelectorAll('.task--archive');
@@ -97,6 +99,7 @@ const filters = {
         
     },
 
+    // this method will sort and show tasks by their categories
     handleFilterCategory: function (evt) {
 
         const categoryIndex = (evt.currentTarget.selectedIndex);

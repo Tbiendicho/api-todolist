@@ -3,8 +3,8 @@ const task = {
   // ---------------------------------------------------------
   // Binders
   // ---------------------------------------------------------
-  
-  bindSingleTaskEvents: function(taskElement) {
+
+  bindSingleTaskEvents: function (taskElement) {
 
     // listening the click on the title for edition mode
     const taskTitleElement = taskElement.querySelector(".task__title-label");
@@ -16,13 +16,13 @@ const task = {
     taskInputElement.addEventListener("blur", task.handleValidateNewTaskTitleOnBlur);
 
     // listening the click on the category for edition mode
-    const taskCategoryElement = taskElement.querySelector(".task__category-label");
+    const taskCategoryElement = taskElement.querySelector(".task__category__label");
     taskCategoryElement.addEventListener("click", task.handleEnableTaskCategoryChosingMode);
 
     // listening the choice of a category option
     const categoryOptionElement = taskElement.querySelector("select");
     categoryOptionElement.addEventListener("change", task.handleValidateNewCategory);
-    
+
     // listening the complete button
     const taskCompleteBtn = taskElement.querySelector(".task__button--validate");
     taskCompleteBtn.addEventListener("click", task.handleCompleteTask);
@@ -50,26 +50,26 @@ const task = {
   // ---------------------------------------------------------
 
   // editing a task
-  handleEnableTaskTitleEditMode: function(event) {
+  handleEnableTaskTitleEditMode: function (event) {
     const taskTitleElement = event.currentTarget;
     const taskElement = taskTitleElement.closest(".task");
     taskElement.classList.add("task--edit");
   },
 
   // editing a category
-  handleEnableTaskCategoryChosingMode: function(event) {
+  handleEnableTaskCategoryChosingMode: function (event) {
     const taskCategoryElement = event.currentTarget;
     const taskElement = taskCategoryElement.closest(".task");
 
-    const categoryLabel = taskElement.querySelector(".task__category-label");
-    categoryLabel.style.display ="none";
+    const categoryLabel = taskElement.querySelector(".task__category__label");
+    categoryLabel.style.display = "none";
 
-    const taskSelectElement = taskElement.querySelector(".task__category__choice");
+    const taskSelectElement = taskElement.querySelector(".task__category__select");
     taskSelectElement.style.display = "block";
   },
 
   // validating a title when enter key is pushed
-  handleValidateNewTaskTitleOnKeyDown: function(event) {
+  handleValidateNewTaskTitleOnKeyDown: function (event) {
 
     if (event.key === "Enter") {
       task.handleDisableTaskTitleEditMode(event);
@@ -77,7 +77,7 @@ const task = {
   },
 
   // archiving a task
-  handleArchiveTask: function(evt) {
+  handleArchiveTask: function (evt) {
     const taskInputElement = evt.currentTarget;
     const taskElement = taskInputElement.closest('.task');
     taskInputElementId = taskElement.dataset.id
@@ -91,27 +91,27 @@ const task = {
     let myInit = {
       method: 'PATCH',
       headers: {
-          'Accept': 'application/json', // client can accept json
-          'Content-Type': 'application/json', // client can send json
+        'Accept': 'application/json', // client can accept json
+        'Content-Type': 'application/json', // client can send json
       },
       body: JSON.stringify(taskData),
-  };
+    };
 
     fetch(app.apiRootUrl + "/tasks/edit/" + taskInputElementId, myInit)
-    .then(function (response) {
-      if (response.status == 204) {
-        taskElement.classList.remove('task--todo');
-        taskElement.classList.add('task--archive');
-        alert("Tâche archivée");
-        taskElement.style.display = "none";
-      } else {
-        alert("Erreur lors de l'enregistrement");
-      }
-    });
+      .then(function (response) {
+        if (response.status == 204) {
+          taskElement.classList.remove('task--todo');
+          taskElement.classList.add('task--archive');
+          alert("Tâche archivée");
+          taskElement.style.display = "none";
+        } else {
+          alert("Erreur lors de l'enregistrement");
+        }
+      });
   },
 
   // desarchiving a task
-  handleDesarchiveTask: function(evt) {
+  handleDesarchiveTask: function (evt) {
     const taskInputElement = evt.currentTarget;
     const taskElement = taskInputElement.closest('.task');
     taskInputElementId = taskElement.dataset.id;
@@ -125,41 +125,41 @@ const task = {
     let myInit = {
       method: 'PATCH',
       headers: {
-          'Accept': 'application/json', // client can accept json
-          'Content-Type': 'application/json', // client can send json
+        'Accept': 'application/json', // client can accept json
+        'Content-Type': 'application/json', // client can send json
       },
       body: JSON.stringify(taskData),
-  };
+    };
 
     fetch(app.apiRootUrl + "/tasks/edit/" + taskInputElementId, myInit)
-    .then(function (response) {
-      if (response.status == 204) {
-        taskElement.classList.remove('task--archive');
-        taskElement.classList.add('task--todo');
-        alert("Tâche desarchivée");
-        taskElement.style.display = "none";
-      } else {
-        alert("Erreur lors de l'enregistrement");
-      }
-    });
+      .then(function (response) {
+        if (response.status == 204) {
+          taskElement.classList.remove('task--archive');
+          taskElement.classList.add('task--todo');
+          alert("Tâche desarchivée");
+          taskElement.style.display = "none";
+        } else {
+          alert("Erreur lors de l'enregistrement");
+        }
+      });
   },
 
   // save a new title when we get out of the field
-  handleValidateNewTaskTitleOnBlur: function(event) {
+  handleValidateNewTaskTitleOnBlur: function (event) {
     task.handleDisableTaskTitleEditMode(event);
   },
 
   // save a new title when we get out of the field
-  handleDisableTaskTitleEditMode: function(event) {
+  handleDisableTaskTitleEditMode: function (event) {
     const taskInputElement = event.currentTarget;
     const taskInputValue = taskInputElement.value;
     const taskElement = taskInputElement.closest(".task");
-    
+
     const taskTitleElement = taskElement.querySelector(".task__title-label");
-    
+
 
     // catching the id of the task
-    const taskId = taskElement.dataset.id ;
+    const taskId = taskElement.dataset.id;
 
     // creating the updating object
     const taskData = {
@@ -170,71 +170,78 @@ const task = {
     let myInit = {
       method: 'PATCH',
       headers: {
-          'Accept': 'application/json', // client can accept json
-          'Content-Type': 'application/json', // client can send json
+        'Accept': 'application/json', // client can accept json
+        'Content-Type': 'application/json', // client can send json
       },
       body: JSON.stringify(taskData),
-  };
-
-    fetch(app.apiRootUrl + "/tasks/edit/" + taskId, myInit)
-    .then(function (response) {
-      if (response.status == 204) {
-        taskTitleElement.textContent = taskInputValue;
-        taskElement.classList.remove("task--edit");
-      } else {
-        alert("Erreur lors de l'enregistrement");
-      }
-    });
-  },
-  
-  // save a new chosen category
-  handleValidateNewCategory: function(event) {
-
-    const newCategory = event.currentTarget;
-    const ChosenCategoryIndex = newCategory.selectedIndex + 1;
-    const chosenCategory = categoriesList.categoriesList[ChosenCategoryIndex];
-
-    // catching the id of the task
-    const taskElement = newCategory.closest(".task");
-    const taskId = taskElement.dataset.id ;
-
-    // creating the updating object
-    const taskData = {
-      category: ChosenCategoryIndex
     };
 
-    // sending datas with AJAX request
-    let myInit = {
-      method: 'PATCH',
-      headers: {
+    fetch(app.apiRootUrl + "/tasks/edit/" + taskId, myInit)
+      .then(function (response) {
+        if (response.status == 204) {
+          taskTitleElement.textContent = taskInputValue;
+          taskElement.classList.remove("task--edit");
+        } else {
+          alert("Erreur lors de l'enregistrement");
+        }
+      });
+  },
+
+  // save a new chosen category
+  handleValidateNewCategory: function (event) {
+
+    const newCategory = event.currentTarget;
+    const ChosenCategoryIndex = newCategory.selectedIndex;
+    const chosenCategory = categoriesList.categoriesList[ChosenCategoryIndex];
+    console.log(ChosenCategoryIndex);
+    if (ChosenCategoryIndex != 0) {
+
+
+      // catching the id of the task
+      const taskElement = newCategory.closest(".task");
+      const taskId = taskElement.dataset.id;
+
+      // creating the updating object
+      const taskData = {
+        category: ChosenCategoryIndex
+      };
+
+      // sending datas with AJAX request
+      let myInit = {
+        method: 'PATCH',
+        headers: {
           'Accept': 'application/json', // client can accept json
           'Content-Type': 'application/json', // client can send json
-      },
-      body: JSON.stringify(taskData),
-  };
+        },
+        body: JSON.stringify(taskData),
+      };
 
-    fetch(app.apiRootUrl + "/tasks/edit/" + taskId, myInit)
-    .then(function (response) {
-      if (response.status == 204) {
-        const taskSelectElement = taskElement.querySelector(".task__category__choice");
-        taskSelectElement.style.display = "none";
-        const categoryLabel = taskElement.querySelector(".task__category-label");
-        categoryLabel.style.display ="block";
-        categoryLabel.textContent = chosenCategory;
+      fetch(app.apiRootUrl + "/tasks/edit/" + taskId, myInit)
+        .then(function (response) {
+          if (response.status == 204) {
+            const taskSelectElement = taskElement.querySelector(".task__category__select");
+            taskSelectElement.style.display = "none";
+            const categoryLabel = taskElement.querySelector(".task__category__label");
+            categoryLabel.style.display = "block";
+            categoryLabel.textContent = chosenCategory;
 
-      } else {
-        alert("Erreur lors de l'enregistrement");
-      }
-    });
+            const currentTask = categoryLabel.closest(".task");
+            currentTask.dataset.category = chosenCategory;
+
+          } else {
+            alert("Erreur lors de l'enregistrement");
+          }
+        });
+    };
   },
 
   // delete a task
-  handleDeleteTask: function(event) {
+  handleDeleteTask: function (event) {
 
     // catching the id of the task
     const DeleteElement = event.currentTarget;
     const TaskTodelete = DeleteElement.closest(".task");
-    const taskId = TaskTodelete.dataset.id ;
+    const taskId = TaskTodelete.dataset.id;
 
     console.log(taskId);
 
@@ -242,39 +249,39 @@ const task = {
     let myInit = {
       method: 'DELETE',
       headers: {
-          'Accept': 'application/json', // client can accept json
-          'Content-Type': 'application/json', // client can send json
+        'Accept': 'application/json', // client can accept json
+        'Content-Type': 'application/json', // client can send json
       },
     };
 
     fetch(app.apiRootUrl + "/tasks/delete/" + taskId, myInit)
-    .then(function (response) {
-      if (response.status == 204) {
-        location.reload();
-        alert("La tâche a bien été supprimée")
-      } else {
-        alert("Erreur lors de l'enregistrement");
-      }
-    });
+      .then(function (response) {
+        if (response.status == 204) {
+          location.reload();
+          alert("La tâche a bien été supprimée")
+        } else {
+          alert("Erreur lors de l'enregistrement");
+        }
+      });
   },
 
   // save a task as completed
-  handleCompleteTask: function(event) {
+  handleCompleteTask: function (event) {
     task.updateTaskCompletionToApi(event, 100);
   },
 
   // save a task as incomplete
-  handleIncompleteTask: function(event) {
+  handleIncompleteTask: function (event) {
     task.updateTaskCompletionToApi(event, 0);
   },
 
-  updateTaskCompletionToApi: function(event, completionArg) {
-    
+  updateTaskCompletionToApi: function (event, completionArg) {
+
     const btnElement = event.currentTarget;
     const taskElement = btnElement.closest(".task");
 
-    const taskId = taskElement.dataset.id ;
-    
+    const taskId = taskElement.dataset.id;
+
     // creating the updating object
     const taskData = {
       completion: completionArg
@@ -284,23 +291,22 @@ const task = {
     let myInit = {
       method: 'PATCH',
       headers: {
-          'Accept': 'application/json', // client can accept json
-          'Content-Type': 'application/json', // client can send json
+        'Accept': 'application/json', // client can accept json
+        'Content-Type': 'application/json', // client can send json
       },
       body: JSON.stringify(taskData),
-  };
+    };
 
     fetch(app.apiRootUrl + '/tasks/edit/' + taskId, myInit)
-    .then(
-        function(response) {
-            if (response.status == 204) {
-                task.updateTaskCompletion(taskElement, completionArg);
-            }
-            else {
-                alert('L\'ajout a échoué');
-            }
+      .then(
+        function (response) {
+          if (response.status == 204) {
+            task.updateTaskCompletion(taskElement, completionArg);
+          } else {
+            alert('L\'ajout a échoué');
+          }
         }
-    )
+      )
   },
 
   // ---------------------------------------------------------
@@ -319,7 +325,7 @@ const task = {
   },
 
   // creating a new task with its datas
-  createTaskElement: function(taskTitleValue, taskCategoryValue, taskID, taskCompletion) {
+  createTaskElement: function (taskTitleValue, taskCategoryValue, taskID, taskCompletion) {
 
     // cloning an old task
     const templateElement = document.querySelector("#task-template");
@@ -332,12 +338,12 @@ const task = {
     const taskInputElement = templateClonedElement.querySelector("input");
     taskInputElement.value = taskTitleValue;
     taskInputElement.defaultValue = taskTitleValue;
-    const taskSelectElement = templateClonedElement.querySelector(".task__category__choice");
+    const taskSelectElement = templateClonedElement.querySelector(".task__category__select");
     taskSelectElement.style.display = "none";
 
     // updating the task's category
     templateClonedElement.dataset.category = taskCategoryValue;
-    const taskCategoryElement = templateClonedElement.querySelector(".task__category-label");
+    const taskCategoryElement = templateClonedElement.querySelector(".task__category__label");
     taskCategoryElement.textContent = taskCategoryValue;
 
     // updating the id

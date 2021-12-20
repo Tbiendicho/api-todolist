@@ -49,30 +49,27 @@ const categoriesList = {
         }
 
         // we'll do the same for the add task option
-        let taskSelectElement = document.createElement("select");
-        taskSelectElement.classList.add("task__category__list");
-        let categoryTaskElement = document.querySelector(".task .task__category .select");
-        categoryTaskElement.append(taskSelectElement);
-
-        let firstCategoryTask = document.createElement("option");
-        firstCategoryTask.textContent = "Choisir une catégorie";
-        firstCategoryTask.classList.add("task__category__option--first");
-        taskSelectElement.append(firstCategoryTask);
+        let newTaskSelectElement = document.querySelector(".task .task__category__select");
+        let firstnewtaskCategory = document.createElement("option");
+        firstnewtaskCategory.textContent = "Choisir une catégorie";
+        firstnewtaskCategory.classList.add("task__category__option--first");
+        newTaskSelectElement.append(firstnewtaskCategory);
 
         for (const category of jsonData) {
-          const CategoryTaskElement = document.createElement("option");
-          CategoryTaskElement.textContent = category.name;
-          CategoryTaskElement.classList.add("task__category__option");
-          CategoryTaskElement.value = category.id ;
-          CategoryTaskElement.name = category.name;
-          taskSelectElement.append(CategoryTaskElement);
+          const categoryOptionTaskElement = document.createElement("option");
+          categoryOptionTaskElement.textContent = category.name;
+          categoryOptionTaskElement.classList.add("task__category__option");
+          categoryOptionTaskElement.value = category.id ;
+          categoryOptionTaskElement.name = category.name;
+          newTaskSelectElement.append(categoryOptionTaskElement);
         }
 
         // we'll do the same for the categories of the template task
-        let templateSelectElement = document.createElement("select");
-        templateSelectElement.classList.add("task__category__choice");
-        let categoryTemplateElement = document.querySelector(".tasks .task__category .select");
-        categoryTemplateElement.append(templateSelectElement);
+        let taskSelectElement = document.querySelector(".tasks .task__category__select");
+        let firstCategoryTask = document.createElement("option");
+        firstCategoryTask.textContent = "Catégorie";
+        firstCategoryTask.classList.add("task__category__option--first");
+        taskSelectElement.append(firstCategoryTask);
 
         for (const category of jsonData) {
           const categoryOptionTemplateElement = document.createElement("option");
@@ -80,7 +77,7 @@ const categoriesList = {
           categoryOptionTemplateElement.classList.add("task__category__option");
           categoryOptionTemplateElement.value = category.id ;
           categoryOptionTemplateElement.name = category.name;
-          templateSelectElement.append(categoryOptionTemplateElement);
+          taskSelectElement.append(categoryOptionTemplateElement);
         }
       }
     );
