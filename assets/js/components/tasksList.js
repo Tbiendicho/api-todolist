@@ -9,11 +9,10 @@ const tasksList = {
   // ---------------------------------------------------------
 
   bindAllTasksEvents: function() {
-    // récupère toutes les tâches de la liste
+    // catching all the tasks of the list
     const tasksElements = document.querySelectorAll(".tasks .task");
-    // boucle sur chaque tâche de la liste
+    // applying binders on all elements
     for (const taskElement of tasksElements) {
-      // dans la boucle, appelle task.bindSingleTaskEvents(taskElement) pour chaque tâche
       task.bindSingleTaskEvents(taskElement);
     }
   },

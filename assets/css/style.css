@@ -1,158 +1,161 @@
 body {
-    background-color: #FAACA8;
-    background-image: linear-gradient(19deg, #FAACA8 0%, #DDD6F3 100%);  
+  background-color: #637081;
+  background-image: linear-gradient(315deg, #637081 0%, #7c98b3 74%);
     text-align: center;
     background-repeat: no-repeat;
     height: 100vh;
+}
+
+.logo__title, .task__title-label, .task__category__label {
+  color: white;
+  font-weight: bold;
+}
+
+.task__content {
+  background-color: #393939;
 }
 
 .nav {
     justify-content: center;
 }
 
-.container {
-    padding: 0.5rem;
-  }
-  
-  .header {
-    padding: 1.2rem;
-  }
-  
-  .logo__title {
-    margin-bottom: 0.5rem;
-  }
+.filters__task--completion .filters__choice {
+  background-color: #F67280;
+  color: white;
+  font-weight: bold;
+  border: 2px solid white;
+  margin-right: 1em;
+}
 
-  .filters__task--completion {
-    margin: auto;
-  }
-  
-  .filters__task--completion.buttons {
-    margin-bottom: 0.5rem;
-  }
-  
-  .filters__task--archived {
-    margin-top: 1rem;
-  }
-  
-  .task {
-    margin: 1.5rem 0 0 0;
-  }
-  
-  .task,
-  .task__button.button,
-  .task__title-field {
-    font-size: 0.8rem;
-  }
-  
-  .task__content {
-    padding: 0.5rem;
-    border: solid 1px #ededed;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-  }
-  
-  .task__title {
-    font-weight: 400;
-    width: 35%;
-  }
-  
-  .task__title-field {
-    display: none;
-  }
-  
-  .task__category {
+.filters__task__select, .filters__task__select option {
+  background-color: #F67280;
+  color: white;
+  font-weight: bold;
+  border: 2px solid white;
+  margin-right: 5em;
+}
 
-  }
-  
-  .task__buttons {
-    margin-left: 1rem;
-  }
-  
-  .progress-bar {
-    height: 0.4rem;
-    background-color: red;
-  }
-  
-  .progress-bar__level {
-    height: 0.4rem;
+.filters__task--archived {
+  margin-top: 1rem;
+}
 
-  }
-  
-  .task__button--desarchive,
-  .task__button--incomplete,
-  .task__button--delete {
-    display: none;
-  }
-  
-  .task--complete .task__title-label {
-    text-decoration: line-through;
-  }
-  
-  .task--complete .task__button--validate {
-    display: none;
-  }
-  
-  .task--complete .task__button--incomplete {
-    display: inline-block;
-  }
-  
-  .task--edit .task__title-label {
-    display: none;
-  }
-  
-  .task--edit .task__title-field {
-    display: block;
-    width: 90%;
-  }
-  
-  .task--archive .task__content {
-    border: none;
-  }
-  
-  .task--archive .task__title {
-  }
-  
-  .task--archive .progress-bar__level {
-  }
-  
-  .task--archive .task__button--validate,
-  .task--archive .task__button--modify,
-  .task--archive .task__button--archive {
-    display: none;
-  }
-  
-  .task--archive .task__button--desarchive,
-  .task--archive .task__button--delete {
-    display: inline-block;
-  }
-  
-  .task--add .task__content {
-  }
-  
-  .task--add .task__title {
-    width: 100%;
-  }
-  
-  .task--add .task__category {
-    width: 100%;
-    margin-top: 0.5rem;
-  }
-  
-  .task--add .task__title-field {
-    display: block;
-    width: 90%;
-  }
-  
-  .task--add .task__buttons {
-    margin: 0.5rem 0 0 0;
-  }
-  
-  .task--add .task__button {
-    font-size: 1rem;
-  }
-  
+.task--add .task__category {
+  padding-right: 4em;
+}
+
+.btn-archive {
+  background-color: #E1AE10;
+  border: 2px solid white;
+  color: white;
+  font-weight: bold;
+}
+
+.filters__choice, .filters__task__select, .btn-archive {
+  height: 2.5em;
+}
+
+.filters__task--completion:hover .filters__choice:hover, .btn-archive:hover {
+background-color: #393939;
+color: white;
+}
+
+.task {
+  margin: 1.5rem 0 0 0;
+}
+
+.task__content {
+  padding: 0.5rem;
+  border: solid 1px #ededed;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.task__title-field {
+  display: none;
+}
+
+.task__button--desarchive,
+.task__button--incomplete,
+.task__button--delete {
+  display: none;
+}
+
+.task--complete .task__title-label {
+  text-decoration: line-through;
+}
+
+.task--complete .task__button--validate {
+  display: none;
+}
+
+.task--complete .task__button--incomplete {
+  display: inline-block;
+}
+
+.task--edit .task__title-label {
+  display: none;
+}
+
+.task--edit .task__title-field {
+  display: block;
+  width: 90%;
+}
+
+.task--archive .task__button--validate,
+.task--archive .task__button--modify,
+.task--archive .task__button--archive {
+  display: none;
+}
+
+.task--archive .task__button--desarchive,
+.task--archive .task__button--delete {
+  display: inline-block;
+}
+
+.task--add .task__title-field {
+  display: block;
+  width: 90%;
+}
+
+.task--add .task__button {
+  font-size: 1rem;
+}
+
+.task__button--incomplete {
+  background-color: #F67280;
+  border: #F67280;
+}
+
+.task__button--archive {
+  background-color: grey;
+  border: grey;
+}
+
+.task__button--delete {
+  background-color: #DC3A1A;
+  border: #DC3A1A;
+}
+
+.task__button--desarchive {
+  background-color: #419add;
+  border: #419add;
+}
+
+.task__button--validate, .task__button--add {
+  background-color: #419add;
+  border: #419add;
+}
+
+.task__button--archive, .task__button--delete {
+  margin-left: 0.5em;
+}
+
+.task__button:hover {
+  background-color: #393939;
+}
+
   @media screen and (min-width: 640px) {
     .container {
       padding: 1rem;
@@ -181,11 +184,6 @@ body {
       width: 30%;
     }
   
-    .task--add .task__buttons {
-      width: 20%;
-      text-align: right;
-      margin: 0;
-    }
   }
   
   @media screen and (min-width: 800px) {
