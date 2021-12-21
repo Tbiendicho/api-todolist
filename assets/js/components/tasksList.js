@@ -1,5 +1,7 @@
 const tasksList = {
 
+  deletedTask: false,
+
   init: function() {
     tasksList.loadTasksFromAPI();
   },
@@ -28,8 +30,20 @@ const tasksList = {
     tasksListElement.prepend(newTaskElement);
 
     if (boolean == true) {
-      location.reload();
-    }
+      let allTasks = document.querySelectorAll(".task--todo, .task--complete, .task--archive");
+      for (const task of allTasks) {
+        if (task.id != "task-template") {
+          task.remove();
+        }
+      }
+
+      tasksList.loadTasksFromAPI();
+
+      allTasks = document.querySelectorAll(".task--todo, .task--complete");
+      for (const task of allTasks) {
+          task.style.display="block";
+        }
+    };
   },
 
   // ---------------------------------------------------------
@@ -64,7 +78,12 @@ const tasksList = {
             let taskElementById = document.querySelector("[data-id='" +  singleTask.id + "']");
             taskElementById.classList.remove('task--todo');
             taskElementById.classList.add('task--archive');
-            taskElementById.style.display = "none";
+            if (tasksList.deletedTask == false) {
+              taskElementById.style.display = "none";
+            } else {
+              taskElementById.style.display = "block";
+              tasksList.deletedTask = false;
+            }
           }
         }
         const templateElement = document.querySelector("#task-template");

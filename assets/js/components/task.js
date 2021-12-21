@@ -193,7 +193,6 @@ const task = {
     const newCategory = event.currentTarget;
     const ChosenCategoryIndex = newCategory.selectedIndex;
     const chosenCategory = categoriesList.categoriesList[ChosenCategoryIndex];
-    console.log(ChosenCategoryIndex);
     if (ChosenCategoryIndex != 0) {
 
 
@@ -243,8 +242,6 @@ const task = {
     const TaskTodelete = DeleteElement.closest(".task");
     const taskId = TaskTodelete.dataset.id;
 
-    console.log(taskId);
-
     // sending datas with AJAX request
     let myInit = {
       method: 'DELETE',
@@ -257,7 +254,15 @@ const task = {
     fetch(app.apiRootUrl + "/tasks/delete/" + taskId, myInit)
       .then(function (response) {
         if (response.status == 204) {
-          location.reload();
+          let allTasks = document.querySelectorAll(".task--todo, .task--complete, .task--archive");
+          for (const task of allTasks) {
+            if (task.id != "task-template") {
+              task.remove();
+            }
+          }
+          tasksList.deletedTask = true;
+          tasksList.loadTasksFromAPI();
+
           alert("La tâche a bien été supprimée")
         } else {
           alert("Erreur lors de l'enregistrement");
