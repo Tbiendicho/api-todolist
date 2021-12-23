@@ -9,9 +9,9 @@ const filters = {
         const filterElement = document.querySelector('.filters__task.filters__task--archived');
         filterElement.addEventListener('click', filters.handleFilterTasks);
 
-        const filterChoiceElement = document.querySelectorAll('.filters .filters__choice');
+        const filterChoiceElement = document.querySelectorAll('.filters__task--completion__select');
         for (currentFilterChoice of filterChoiceElement) {
-            currentFilterChoice.addEventListener('click', filters.handleFilterChoice);
+            currentFilterChoice.addEventListener('change', filters.handleFilterChoice);
         }
 
         filterCategoryElement = document.querySelector('.filters__task__select');
@@ -57,15 +57,15 @@ const filters = {
     // this method will show completed or active tasks
     handleFilterChoice: function (evt) {
         
+        const completionIndex = (evt.currentTarget.selectedIndex);
+
         const tasksArchivedElement = document.querySelectorAll('.task--archive');
         for (const task of tasksArchivedElement) {
             task.style.display = "none";
         }
 
-        const selectedButton = evt.currentTarget;
-        selectedButton.classList.add("selected");
-
-        if (selectedButton.textContent == "Incomplètes") {
+        // here, 0 = all, 1 = complete and 2 = incomplete
+        if (completionIndex == 2) {
             tasksToDo = document.querySelectorAll('.task--todo');
             for (currentTaskToDo of tasksToDo) {
                 currentTaskToDo.style.display = "none";
@@ -75,7 +75,7 @@ const filters = {
                 currentTaskCompleted.style.display = "block";
             }
             filters.showarchivedTasks = false;
-        } else if (selectedButton.textContent == "Complètes") {
+        } else if (completionIndex == 1) {
             tasksCompleted = document.querySelectorAll('.task--complete');
             for (currentTaskCompleted of tasksCompleted) {
                 currentTaskCompleted.style.display = "none";
@@ -87,7 +87,7 @@ const filters = {
                 }
             }
             filters.showarchivedTasks = false;
-        } else if (selectedButton.textContent == "Toutes"){
+        } else if (completionIndex == 0){
             allTasks = document.querySelectorAll('.task');
             for (currentTask of allTasks) {
                 if (currentTask.id != "task-template" && !currentTask.classList.contains('task--archive')) {
@@ -109,8 +109,9 @@ const filters = {
             if (currentTask.id != "task-template") {
             currentTask.style.display = "block";
             }
+
             if (chosenCategory != "Toutes") {
-                if (currentTask.dataset.category != chosenCategory) {
+                if (currentTask.dataset.category != chosenCategory && !currentTask.classList.contains('task--add')) {
                     currentTask.style.display = "none";
                 }
             };

@@ -3,6 +3,7 @@ body {
   background-image: linear-gradient(315deg, #637081 0%, #7c98b3 74%);
   text-align: center;
   background-repeat: no-repeat;
+  min-height: 100vh;
 }
 
 .logo__title,
@@ -70,15 +71,14 @@ body {
   display: none;
 }
 
-.task__title-label {
-  border-bottom: 1px solid white;
-  padding-bottom: 1em;
-}
-
 .task__button--desarchive,
 .task__button--incomplete,
 .task__button--delete {
   display: none;
+}
+
+.task--complete {
+  opacity: 0.5;
 }
 
 .task--complete .task__title-label {
@@ -159,8 +159,10 @@ body {
 
 @media (min-width: 991px) {
 
-  body {
-    height: 100vh;
+  .logo__title {
+    padding: 0.5em;
+    font-family: 'Oooh Baby', cursive;
+    font-size: 4em;
   }
 
   .filters {
@@ -216,6 +218,11 @@ body {
 }
 
 @media (max-width: 991px) {
+  
+  .logo__title {
+    font-family: 'Oooh Baby', cursive;
+    font-size: 3em;
+  }
 
   .filters {
     display: flex;
@@ -260,6 +267,11 @@ body {
     width: 100%;
     margin: auto;
     justify-content: center;
+  }
+
+  .task__title-label {
+    border-bottom: 1px solid white;
+    padding-bottom: 1em;
   }
 
   .task__title-field {
