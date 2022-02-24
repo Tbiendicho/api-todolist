@@ -74,6 +74,11 @@ const filters = {
         const completionIndex = (evt.currentTarget.selectedIndex);
 
         const tasksArchivedElement = document.querySelectorAll('.task--archive');
+
+        filters.currentCompletionIndex = completionIndex;
+
+        console.log(filters.currentCompletionIndex);
+        console.log(filters.chosenCategory);
         
         for (const task of tasksArchivedElement) {
             task.style.display = "none";
@@ -108,14 +113,12 @@ const filters = {
         } else if (completionIndex == 0){
             allTasks = document.querySelectorAll('.task');
             for (currentTask of allTasks) {
-                if (currentTask.id != "task-template" && !currentTask.classList.contains('task--archive') && (filters.chosenCategory == currentTaskCompleted.dataset.category || filters.chosenCategory == "Toutes")) {
+                if (currentTask.id != "task-template" && !currentTask.classList.contains('task--archive') && (filters.chosenCategory == currentTask.dataset.category || filters.chosenCategory == "Toutes")) {
                     currentTask.style.display = "block";
                 }
             }
             filters.showarchivedTasks = false;
         }
-
-        filters.currentCompletionIndex = completionIndex;
         
     },
 
