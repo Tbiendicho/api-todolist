@@ -2,6 +2,10 @@ const filters = {
 
     showarchivedTasks: false,
 
+    currentCompletionIndex: 0,
+
+    chosenCategory: "Toutes",
+
     init: function () {
 
         // Binders
@@ -9,9 +13,9 @@ const filters = {
         const filterElement = document.querySelector('.filters__task.filters__task--archived');
         filterElement.addEventListener('click', filters.handleFilterTasks);
 
-        const filterChoiceElement = document.querySelectorAll('.filters .filters__choice');
+        const filterChoiceElement = document.querySelectorAll('.filters__task--completion__select');
         for (currentFilterChoice of filterChoiceElement) {
-            currentFilterChoice.addEventListener('click', filters.handleFilterChoice);
+            currentFilterChoice.addEventListener('change', filters.handleFilterChoice);
         }
 
         filterCategoryElement = document.querySelector('.filters__task__select');
@@ -19,14 +23,17 @@ const filters = {
 
     },
 
+    // this method will show archived or unarchived tasks
     handleFilterTasks: function () {
 
-        const tasksToDoElement = document.querySelectorAll('.task--todo, .task--complete');
+        const tasksNotArchivedElement = document.querySelectorAll('.task--todo, .task--complete');
+        const tasksToDoElement = document.querySelectorAll('.task--todo');
+        const taskCompleteElement = document.querySelectorAll('.task--complete');
         const tasksArchivedElement = document.querySelectorAll('.task--archive');
 
         if (filters.showarchivedTasks === false) {
 
-            for (const task of tasksToDoElement) {
+            for (const task of tasksNotArchivedElement) {
                 if (task.id != "task-template") {
                     task.style.display = "none";
                 }
@@ -34,7 +41,7 @@ const filters = {
 
             for (const task of tasksArchivedElement) {
                 task.style.display = "block";
-            }
+            }     
 
         } else {
 
@@ -42,8 +49,16 @@ const filters = {
                 task.style.display = "none";
             }
 
-            for (const task of tasksToDoElement) {
-                if (task.id != "task-template") {
+            if (filters.currentCompletionIndex == 0) {
+                var tasksElement = tasksNotArchivedElement;
+            } else if (filters.currentCompletionIndex == 1) {
+                var tasksElement = taskCompleteElement;
+            } else {
+                var tasksElement = tasksToDoElement;
+            }
+
+            for (const task of tasksElement) {
+                if (task.id != "task-template" && (task.dataset.category == filters.chosenCategory || filters.chosenCategory == "Toutes")) {
                     task.style.display = "block";
                 }
             }
@@ -53,61 +68,84 @@ const filters = {
 
     },
 
+    // this method will show completed or active tasks
     handleFilterChoice: function (evt) {
         
+        const completionIndex = (evt.currentTarget.selectedIndex);
+
         const tasksArchivedElement = document.querySelectorAll('.task--archive');
+        
         for (const task of tasksArchivedElement) {
             task.style.display = "none";
         }
 
-        const selectedButton = evt.currentTarget;
-        selectedButton.classList.add("selected");
-
-        if (selectedButton.textContent == "Incomplètes") {
+        // here, 0 = all, 1 = complete and 2 = incomplete
+        if (completionIndex == 1) {
             tasksToDo = document.querySelectorAll('.task--todo');
             for (currentTaskToDo of tasksToDo) {
                 currentTaskToDo.style.display = "none";
             }
             tasksCompleted = document.querySelectorAll('.task--complete');
             for (currentTaskCompleted of tasksCompleted) {
-                currentTaskCompleted.style.display = "block";
+                if (filters.chosenCategory == currentTaskCompleted.dataset.category || filters.chosenCategory == "Toutes") {
+                    currentTaskCompleted.style.display = "block";
+                }
             }
             filters.showarchivedTasks = false;
-        } else if (selectedButton.textContent == "Complètes") {
+        } else if (completionIndex == 2) {
             tasksCompleted = document.querySelectorAll('.task--complete');
             for (currentTaskCompleted of tasksCompleted) {
                 currentTaskCompleted.style.display = "none";
             }
             tasksToDo = document.querySelectorAll('.task--todo');
+            
             for (currentTaskToDo of tasksToDo) {
-                if (currentTaskToDo.id != "task-template") {
+                if (currentTaskToDo.id != "task-template" && (filters.chosenCategory == currentTaskToDo.dataset.category || filters.chosenCategory == "Toutes")) {
                     currentTaskToDo.style.display = "block";
                 }
             }
             filters.showarchivedTasks = false;
-        } else if (selectedButton.textContent == "Toutes"){
+        } else if (completionIndex == 0){
             allTasks = document.querySelectorAll('.task');
             for (currentTask of allTasks) {
-                if (currentTask.id != "task-template" && !currentTask.classList.contains('task--archive')) {
+                if (currentTask.id != "task-template" && !currentTask.classList.contains('task--archive') && (filters.chosenCategory == currentTaskCompleted.dataset.category || filters.chosenCategory == "Toutes")) {
                     currentTask.style.display = "block";
                 }
             }
             filters.showarchivedTasks = false;
         }
+
+        filters.currentCompletionIndex = completionIndex;
         
     },
 
+    // this method will sort and show tasks by their categories
     handleFilterCategory: function (evt) {
 
         const categoryIndex = (evt.currentTarget.selectedIndex);
         const chosenCategory = categoriesList.categoriesList[categoryIndex];
-        const allTasks = document.querySelectorAll('.task');
+
+        const tasksNotArchivedElement = document.querySelectorAll('.task--todo, .task--complete');
+        const tasksToDoElement = document.querySelectorAll('.task--todo');
+        const taskCompleteElement = document.querySelectorAll('.task--complete');
+
+        filters.chosenCategory = chosenCategory;
+
+        if (filters.currentCompletionIndex == 0) {
+            var allTasks = tasksNotArchivedElement;
+        } else if (filters.currentCompletionIndex == 1) {
+            var allTasks = taskCompleteElement;
+        } else {
+            var allTasks = tasksToDoElement;
+        }
+
         for (currentTask of allTasks) {
-            if (currentTask.id != "task-template") {
+            if (currentTask.id != "task-template" && (chosenCategory == filters.chosenCategory || categoryIndex == 0)) {
             currentTask.style.display = "block";
             }
+
             if (chosenCategory != "Toutes") {
-                if (currentTask.dataset.category != chosenCategory) {
+                if (currentTask.dataset.category != chosenCategory && !currentTask.classList.contains('task--add')) {
                     currentTask.style.display = "none";
                 }
             };
@@ -115,5 +153,8 @@ const filters = {
                 currentTask.style.display = "none";
             };
         }
+
+        
+
     }
 }
